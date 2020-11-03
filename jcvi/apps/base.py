@@ -170,40 +170,28 @@ class OptionParser(OptionP):
             help="Run on the grid",
         )
 
-    def set_grid_opts(self, array=False, vcode="99999"):
-        queue_choices = ("default", "fast", "medium", "himem")
-        valid_pcodes = popen("qconf -sprjl", debug=False).read().strip().split("\n")
-        valid_pcodes.append(vcode)
+    def set_grid_opts(self, array=False):
+        queue_choices = ("Q104C512G_X4", "Q64C1T_X4", "Q48C2T_X1", "Q64C3T_X1")
+#        valid_pcodes = popen("qconf -sprjl", debug=False).read().strip().split("\n")
+#        valid_pcodes.append(vcode)
 
         group = OptionGroup(self, "Grid parameters")
         group.add_option(
-            "-P",
-            dest="pcode",
-            default=vcode,
-            choices=valid_pcodes,
-            help="Specify accounting project code",
-        )
-        group.add_option(
-            "-l",
+            "-q",
             dest="queue",
-            default="default",
+            default="Q104C512G_X4",
             choices=queue_choices,
             help="Name of the queue",
         )
         group.add_option(
-            "-t",
+            "-n",
             dest="threaded",
             default=None,
             type="int",
             help="Append '-pe threaded N'",
         )
         if array:
-            group.add_option(
-                "-c",
-                dest="concurrency",
-                type="int",
-                help="Append task concurrency limit '-tc N'",
-            )
+            pass
         group.add_option(
             "-d",
             dest="outdir",
@@ -211,10 +199,7 @@ class OptionParser(OptionP):
             help="Specify directory to store grid output/error files",
         )
         group.add_option(
-            "-N", dest="name", default=None, help="Specify descriptive name for the job"
-        )
-        group.add_option(
-            "-H", dest="hold_jid", default=None, help="Define the job dependency list"
+            "-J", dest="name", default=None, help="Specify descriptive name for the job"
         )
         self.add_option_group(group)
 
