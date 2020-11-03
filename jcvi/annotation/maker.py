@@ -53,7 +53,9 @@ class CTLine (object):
 
 class CTLFile (LineFile):
 
-    def __init__(self, filename):
+    def __init__(self, filename="maker_opts.ctl"):
+        abs_path = op.dirname(__file__)
+        filename = op.join(abs_path, filename)
         super(CTLFile, self).__init__(filename)
         fp = open(filename)
         for row in fp:
@@ -158,7 +160,7 @@ def parallel(args):
     N = int(NN)
     assert 1 <= N < 1000, "Required: 1 < N < 1000!"
 
-    outdir = "outdir"
+    outdir = "genome_db"
     fs = split([genome, outdir, NN])
 
     c = CTLFile("maker_opts.ctl")
